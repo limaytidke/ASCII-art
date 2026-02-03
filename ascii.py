@@ -26,7 +26,7 @@ def brightness_array(pixel_array):
     return d2
 
 def mapping(brightness):
-    string = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+    string = ".:-=+*#%@"
     d2 = []
     for row in brightness:
         d1 = []
@@ -36,7 +36,7 @@ def mapping(brightness):
     return d2
 
 def mapped_value(value):
-    return round((value*65)/ 255)
+    return round((value*9)/ 255)
 
 def display(mapped_array):
     for line in mapped_array:
