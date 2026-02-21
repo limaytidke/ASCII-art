@@ -32,8 +32,9 @@ Currently only MP4s and AVIs are supported (I think)
 
 Example:
 
-![[examples/bad apple.mp4]]
+![[[examples/bad apple.mp4](https://github.com/limaytidke/ASCII-art/blob/master/examples/cat.mp4)]]
 
 ## P.S
+
 
 I currently still a beginner so you can expects bugs and errors. I will keep working on this project and try to make it better (hopefully). Thank you. 
