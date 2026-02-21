@@ -17,7 +17,11 @@ Currently there is only support for PNGs.
 
 Example:
 
-![[examples/cat.mp4]]
+
+
+https://github.com/user-attachments/assets/affb70d5-d2d4-4547-870f-b0c8188363ee
+
+
 
 
 ### 2. video_convert.py
@@ -32,9 +36,14 @@ Currently only MP4s and AVIs are supported (I think)
 
 Example:
 
-![[[examples/bad apple.mp4](https://github.com/limaytidke/ASCII-art/blob/master/examples/cat.mp4)]]
+
+
+https://github.com/user-attachments/assets/219a9f86-41ef-42f3-a7ed-7703adc7a729
+
+
 
 ## P.S
 
 
 I currently still a beginner so you can expects bugs and errors. I will keep working on this project and try to make it better (hopefully). Thank you. 
+
