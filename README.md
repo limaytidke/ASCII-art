@@ -32,7 +32,7 @@ Currently only MP4s and AVIs are supported (I think)
 
 Example:
 
-![[examples/bad_apple.mp4]]
+![[examples/bad apple.mp4]]
 
 ## P.S
 
