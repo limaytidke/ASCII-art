@@ -21,7 +21,7 @@ def main():
         display(mapped,img.size)
 
 def ratio(size):
-    width = 138
+    width = 150
     height = (size[1]/size[0]) * 75
     return (width,int(height))
 
@@ -62,13 +62,13 @@ def mapped_value(value,length):
     return int((value/255)*(length-1))
 
 def display(mapped_array,size):
-    print(" " + "="*138)
+    print(" " + "="*size[0])
     for line in mapped_array:
         print("|",end="")
         for c in line:
             print(c*1,end="")
         print("|")
-    print(" " + "="*138)
+    print(" " + "="*size[0])
     print(size)
 
 if __name__ == "__main__":
