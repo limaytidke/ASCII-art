@@ -1,11 +1,16 @@
+import numpy as np
+import colorama
 import cv2 as cv
 from PIL import Image
 import sys, os, time, math
 
+colorama.init()
+
 formats = ['jpeg','png','mp4','avi']
 
-#ascii_chars = " .`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-ascii_chars = "$@%#*|1+=-:^. "[::-1]
+#ascii_chars = np.array(list(" .`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"))
+#ascii_chars = np.array(list("$@%#*|1+=-:^. "[::-1]))  #numpy array cause its fast
+ascii_chars = np.array(list("$@%&#0Ox/\\|1*+~=-!:,\"^. "[::-1]))  #numpy array cause its fast
 
 maps = len(ascii_chars)-1
 
@@ -13,9 +18,9 @@ def main():
     if len(sys.argv) > 5 or len(sys.argv) < 2:
         sys.exit("Incorrect usage.\nuse:- filename.py image.png/video.mp4")
     if os.path.exists(sys.argv[1]):
-        if ".mp4" in sys.argv[1].lower():
-            play_video(sys.argv[1])
-        elif "png" in sys.argv[1].lower():
+        #if ".mkv" in sys.argv[1].lower():
+        play_video(sys.argv[1])
+        if "png" in sys.argv[1].lower():
             convert_frame_to_ascii(sys.argv[1])
     else:
         sys.exit("File does not exists")
@@ -24,7 +29,7 @@ def main():
 def play_video(video):
     cap = cv.VideoCapture(video)
     fps = cap.get(cv.CAP_PROP_FPS)
-    if fps <= 0:
+    if fps < 24:
         fps = 24
     frame_duration = 1/fps
     next_frame_time = time.perf_counter()
@@ -33,8 +38,8 @@ def play_video(video):
         if not ret:
             sys.stdout.write("END")
             break
-        cv.imshow("current frame",frame)
-        sys.stdout.write(f"\r{(convert_frame_to_ascii(frame))}")
+        #cv.imshow("current frame",frame)
+        sys.stdout.write(f"\033[H\r{(convert_frame_to_ascii(frame))}")
         sys.stdout.flush()
         next_frame_time += frame_duration
         sleep_time = next_frame_time - time.perf_counter()
@@ -49,19 +54,31 @@ def play_video(video):
 #For bad apple width = 105
 #For ellen joe width = 165
 def convert_frame_to_ascii(frame):
-    width = 105
-    height = int(frame.shape[1]/frame.shape[0]) * 45
-    img = cv.resize(frame,(width,height))
-    gray_img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-    ascii_str = " " + "="*width + "\n"
-    for row in gray_img:
-        ascii_str += "|"
-        for col in row:
-            mapped_value = (col/255) * maps
-            ascii_str += ascii_chars[int(mapped_value)]
-        ascii_str += "|\n"
-    ascii_str += " " + "="*width + "\n"
-    return ascii_str
+    img, width = set_terminal_size(frame)
+    gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    indices = (gray_img.astype(float) / 255 * maps).astype(int)
+    ascii_array = ascii_chars[indices]
+    lines = ["|" + "".join(row) + "|" for row in ascii_array]
+    border = " " + "=" * width
+    return f"{border}\n" + "\n".join(lines) + f"\n{border}"
+
+
+def set_terminal_size(frame):
+    frame_aspect_ratio = frame.shape[1]/frame.shape[0]  #frame.shape = (height,width)
+    terminal_size = os.get_terminal_size()  #os.get_terminal_size() = (width,height)
+    if 0.75 <= frame_aspect_ratio <= 1.35:
+        height = terminal_size[1] - 4
+        width = height * 2.5 
+    elif 1.35 < frame_aspect_ratio:
+        width = terminal_size[0] - 4
+        height = terminal_size[1] - 4
+    elif 0.5 <= frame_aspect_ratio < 0.75:
+        width = terminal_size[0] - 20
+        height = width * 0.75
+    elif frame_aspect_ratio < 0.5:
+        width = terminal_size[0] - 50
+        height = width * 1
+    return cv.resize(frame,(round(width),round(height))),round(width)
 
 
 if __name__ == "__main__":
