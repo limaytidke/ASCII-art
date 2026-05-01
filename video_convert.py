@@ -10,7 +10,8 @@ formats = ['jpeg','png','mp4','avi']
 
 #ascii_chars = np.array(list(" .`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"))
 #ascii_chars = np.array(list("$@%#*|1+=-:^. "[::-1]))  #numpy array cause its fast
-ascii_chars = np.array(list("$@%&#0Ox/\\|1*+~=-!:,\"^. "[::-1]))  #numpy array cause its fast
+#ascii_chars = np.array(list("$@%&#0Ox/\\|1*+~=:-,\"^. "[::-1]))  #numpy array cause its fast
+ascii_chars = np.array(list("#@%0x/|1\\*+-,\"^. "[::-1]))  #numpy array cause its fast
 
 maps = len(ascii_chars)-1
 
