@@ -8,7 +8,7 @@ colorama.init()
 
 
 class ASCII:
-    def __init__(self, video):
+    def __init__(self, video,webcam = 0):
         self.ascii_chars = np.array(list('$@%&#0Ox/\\|1*+~=-!:,"^. '[::-1]))
         self.maps = len(self.ascii_chars) - 1
         self.char_indices = None
@@ -17,6 +17,7 @@ class ASCII:
         self.frame_duration = 0
         self.cap = None
         self.ascii_str = []
+        self.webcam = webcam
 
     def getfps(self):
         fps = self.cap.get(cv2.CAP_PROP_FPS)
@@ -66,6 +67,9 @@ class ASCII:
         elif frame_aspect_ratio < 0.5:
             width = terminal_size[0] - 50
             height = width * 1
+        else:
+            width = frame.shape[0]
+            height = frame.shape[1]
         img = cv2.resize(frame, (round(width), round(height)))
         return img, round(width)
 
@@ -91,7 +95,15 @@ class ASCII:
 
 
 def main():
-    video = ASCII(askopenfilename())
+    try:
+        mode = int(input("Enter Mode:\n1. Video\n2. Webcam\n: "))
+    except TypeError:
+        sys.exit("Enter Proper Mode")
+    else:
+        if mode == 1:
+            video = ASCII(askopenfilename())
+        else:
+            video = ASCII(0,1)
     video.start()
 
 
